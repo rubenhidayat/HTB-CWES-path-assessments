@@ -6,6 +6,11 @@ You are contracted to perform a penetration test for a company's e-commerce web 
 
 Try to utilize what you learned in this module to understand how the upload form works and how to bypass various validations in place (if any) to gain remote code execution on the back-end server.
 
+## Tools Used For This Assessment
+
+- Burp Suite
+- Web Browser
+
 ## Question
 
 Try to exploit the upload form to read the flag found at the root directory "/". 
