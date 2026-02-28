@@ -15,7 +15,7 @@ The food truck company Flavor Fusion Express tasked you to perform a security as
 ## Solution
 
 1. Visit the web app while enabling Burp's Proxy, we can observe that the web is fetching a remote resource through POST request
-[text](obsidian://open?vault%3DCyber%26file%3DAsset%2FPasted%20image%2020260228133630.png)
+![alt text]({4CDD5EB7-3A5E-48C5-B271-0B40E54359C6}.png)
 
 2. Upon investigating the request body we can see that this request could potentially vulnerable to SSRF, to test that we could manipulate and point the `api` parameter to the web server itself (localhost), Use the following URL
 ```http
