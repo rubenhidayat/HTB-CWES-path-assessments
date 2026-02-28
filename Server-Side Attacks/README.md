@@ -22,7 +22,7 @@ The food truck company Flavor Fusion Express tasked you to perform a security as
 http://127.0.0.1:80/index.php
 ```
 and we can see it responded with a HTML file which confirms our assumption 
-[text](obsidian://open?vault%3DCyber%26file%3DAsset%2FPasted%20image%2020260228134031.png)
+![alt text](<Pasted image 20260228140221.png>)
 
 3. I tried fuzzing the port and other endpoints but got no result, and i tried using `file://` to read the file but it got filtered. So I decided to analyze the original request which is the following:
 ```http
@@ -33,7 +33,7 @@ I decided to test using SSTI payload, some failed but this payloas `{{7*'7'}}` w
 api=http://truckapi.htb/?id%3D{{7*'7'}}
 ```
 The fact that the web app calculated the payload which resulted in the value of `49` instead of rendering it as a string `{{7*'7'}}` means that we got an SSTI vulnerability, to be more specificlly it's Twig SSTI
-[text](obsidian://open?vault%3DCyber%26file%3DAsset%2FPasted%20image%2020260228134642.png)
+![alt text](<Pasted image 20260228140358.png>)
 
 4. Escalate the vulnerability to get more impact which is by using the following payload to execute an arbitrary OS command
 ```http
