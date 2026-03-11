@@ -28,6 +28,8 @@ Authenticate to `http://154.57.164.81:30213/` with initial user "htb-student" an
 ### Step 2 
 
 After logged in, check Burp HTTP History and analyze them, we found an API call `GET /api.php/user/74`, it reference an identifier and has IDOR potential.
+
+
 ![alt text]({C58F8AD0-E9F2-4B71-9AC2-4940A8AE693C}.png)
 
 After looking at the response, there's a JSON data that retrieve uid, username, and other potential useful information
@@ -41,7 +43,7 @@ send the request to Repeater for further testing
 Inside Repeater, try changing the uid inside the request line from `GET /api.php/user/74` to `GET /api.php/user/75`, and analyze the difference. 
 ![alt text](image.png)
 
-As we can see, we're able to retrieve other user's information directly, this just by referencing the identifier, this confirms our IDOR suspicion
+As we can see, we're able to retrieve other user's information directly by referencing the identifier, this confirms our IDOR suspicion.
 
 
 ### Step 4 
@@ -87,13 +89,13 @@ note it down since it has the potential to be the admin account to escalate our 
 
 ### Step 8
 
-Let's test other feature such as `http://154.57.164.81:30213/settings.php`, insert our new password and analyze the Burp's HTTP History
+Let's test other feature such as `http://154.57.164.81:30213/settings.php`, after visiting, it's a page where user can change their password, insert our new password and analyze the Burp's HTTP History
 ![alt text]({0A090E78-AFE5-4F7E-833C-8E8FFF3E6852}.png)
 
-upon clicking the submit button, the website made two request, `GET /api.php/token/74` which retrieve user's token (we'll know the purpose of this token in the next request). Send this request to Repeater for further investigation.
+upon clicking the submit button, the website made two requests, The first is `GET /api.php/token/74` which retrieve user's token (we'll know the purpose of this token after we analyze next request) Send this request to Repeater for further investigation. 
 ![alt text]({A193C459-D294-4240-93AD-00E36FEADB7A}.png)
 
-and `POST /reset.php` which request the password change, it uses the earlier token as CSRF token. If successful it response with a string that says "Password changed successfully". Send this request to Repeater for further investigation.
+The second endpoint we found is `POST /reset.php` which request the password change to the server, it uses the earlier token as CSRF token. If successful it sends a response with a string that says "Password changed successfully". Send this request to Repeater for further investigation.
 ![alt text]({B777BEBD-F6DE-49AC-9D59-BDF609C68276}.png)
 
 
@@ -118,19 +120,21 @@ It response with an error message that says "Access Denied", let's try if this e
 
 ### Step 11
 
-Logged in as the admin using the following credential `a.corrales:hacked`, analyze the the page and notice that we got a new admin only privilage feature in `/event.php` endpoint
+Logged in as the admin using the following credential `a.corrales:hacked`, analyze the the page and notice that we got a new admin only privilage feature in `/event.php` endpoint.
+
+
 ![alt text]({22627EB2-31DB-4E74-9E25-752A5D6E33AC}.png)
 
 
 ### Step 12
 
-Fill the form and analyze the HTTP History, it request to `POST /addEvent.php` endpoint that send the form in XML format and reflected in the name element, this has the potential to have XXE Injection vulnerability, send the request to Repeater for further investigation.
+Fill the form and analyze the HTTP History, it requested to `POST /addEvent.php` endpoint that send the form in XML format and reflected in the name element, this has the potential to have XXE Injection vulnerability, send the request to Repeater for further investigation.
 ![alt text]({DDA6F0A4-7E20-432F-9AE5-D2EAA01564B2}.png)
 
 
 ### Step 13
 
-Since our goal is to read the content of '/flag.php', use the Local File Exposure technique that encode the php code into base64 to avoid breaking the page. the request body should look like this 
+Open `/event.php` endpoint on Repeater, since our goal is to read the content of '/flag.php', use the Local File Exposure technique that encode the php code into base64 to avoid breaking the page. the request body should look like this.
 ![alt text](image-2.png)
 
 ### Step 14
